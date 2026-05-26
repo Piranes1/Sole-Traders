@@ -1,0 +1,29 @@
+<div class="table-responsive"> <!-- Bootstrap responsiveness -->
+    <table class="table align-middle">
+        <thead>
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+            <th scope="col">Pricing Type</th>
+            <th scope="col">Base Price (£)</th>
+            <th scope="col"></th> <!-- Empty column without a header to handle booking buttons -->
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+        <!-- Handling the case where no services are listed -->
+        <% if (services.length===0) { %>
+            <tr>
+            <td colspan="5" class="text-center text-muted py-3">
+                <%= publicTraderName %> has no services yet.
+            </td>
+            </tr>
+
+            <% } else { %>
+                <% services.forEach(service=> { %>
+                    <tr>
+                        <!-- Handling responsiveness in small screens, required to truncate and expand without visual glitches -->
+                        <td class="fw-bold">
+                        <div class="<%= service.title.length > 25 ? 'mobile-truncate' : '' %>" 
+                            onclick="this.classList.toggle('expanded')">
+                        <%= service.title %>
+                        </td>

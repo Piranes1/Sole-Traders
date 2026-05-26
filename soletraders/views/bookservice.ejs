@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trader Zone</title>
+
+  <!-- BOOTSTRAP LINK -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+  <!-- CSS LINK -->
+  <link rel="stylesheet" href="/css/mystyle.css">
+
+  <!-- BOOTSTRAP ICONS LINK -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+  <!-- GOOGLE FONTS LINK -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Allerta+Stencil&family=Notable&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- STICKY HEADER USING BOOTSTRAP NAVBAR -->
+  <header>
+    <nav id="headBanner" class="navbar navbar-expand-lg sticky-top bg-warning">
+      <!-- LOGO AND BUSINESS TITLE -->
+      <div id="logoTitle" class="container-fluid">
+        <a class="navbar-brand fw-bold fst-italic" href="/index">
+          <img src="/images/workericon.png" alt="Logo" class="d-inline-block align-middle">
+          SOLE TRADERS
+        </a>
+        <!-- NAVBAR TOGGLER TO HIDE QUICK LINKS IN SMALL SCREENS FOR RESPONSIVENESS AND A BETTER UX - navbar-expand-lg LOGIC HIDES BUTTON IN LARGE SCREENS -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- QUICK LINKS -->
+        <div class="collapse navbar-collapse" id="mainNavbar">
+          <div class="navbar-nav ms-auto">
+            <a class="nav-link" aria-current="page" href="/index">Home</a>
+            <a class="nav-link active" href="/directory">Find a Trader!</a>
+            <!-- LOGIC TO MAKE THE TRADER ZONE LINK LEAD TO PROFILE IF LOGGED IN OR TO LOGIN IF NOT -->
+            <!-- LOGOUT BUTTON WILL ONLY SHOW IF LOGGED IN -->
+            <% if (loggedIn) { %>
+              <a class="nav-link" href="/profile">
+                <%= trader_name %>'s Zone
+              </a>
+            <% } else { %>
+              <a class="nav-link" href="/login">Trader Zone</a>
+            <% } %>
+            <% if (loggedIn) { %>
+              <a class="nav-link" href="/logout">Logout</a>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- CONTAINER WITH ONE CARD: SERVICES UPDATE FORM -->
+    <div class="container pt-5">
+      <!-- CARD WITH BOOKING FORM -->
+      <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+          <div class="card shadow-sm mb-4">
+            <div class="card-body">
+              <h5 class="card-title text-center mb-4">Book a Service: <%= service.title %></h5>
+              <!-- Muted text, 75% width, centered horizontally -->
+              <p class="text-center text-muted mb-4 w-75 mx-auto">Please, fill in the details below and click on the Book Now button to book this service. Our trader will review your booking and get in touch shortly</p>
+              <!-- General error box alert -->
+              <% if (locals.error) { %>
+                <div class="alert alert-danger d-flex align-items-center shadow-sm mb-4" role="alert">
+                    <i class="bi bi-exclamation-octagon-fill fs-4 me-3"></i>
+                    <div>
+                        <strong>Booking Error:</strong> <%= error %>
+                    </div>
+                </div>
+              <% } %>
+              <form action="/bookservice/<%= service_id %>" method="post">
+                <!-- HIDDEN SERVICE ID SO THAT POST ROUTE KNOWS WHICH SERVICE IS BEING BOOKED -->
+                <input type="hidden" name="service_id" value="<%= service_id %>">
+                <!-- Client Name -->
+                <div class="mb-3">
+                  <label for="clientName" class="form-label">Full Name</label>
+                  <input type="text" name="client_name" id="clientName" required
+                    class="form-control <%= (locals.errors && errors.find(e => e.path === 'client_name')) ? 'is-invalid' : '' %>"
+                    value="<%= locals.oldData ? oldData.client_name : '' %>">
+
+                  <% if (locals.errors) { %>
+                    <% let err = errors.find(e => e.path === 'client_name'); %>
+                    <% if (err) { %>
+                      <div class="invalid-feedback"><%= err.msg %></div>
+                    <% } %>
+                  <% } %>
+                </div>
+                <!-- Client E-Mail -->
+                <div class="mb-3">
+                  <label for="clientEmail" class="form-label">E-Mail Address</label>
+                  <input type="email" name="client_email" id="clientEmail" required
+                    class="form-control <%= (locals.errors && errors.find(e => e.path === 'client_email')) ? 'is-invalid' : '' %>"
+                    value="<%= locals.oldData ? oldData.client_email : '' %>">
+
+                  <% if (locals.errors) { %>
+                    <% let err = errors.find(e => e.path === 'client_email'); %>
+                    <% if (err) { %>
+                      <div class="invalid-feedback"><%= err.msg %></div>
+                    <% } %>
+                  <% } %>
+                </div>
+                <!-- Requested Date -->
+                <div class="mb-3">
+                  <label for="requestedDate" class="form-label">Requested Date</label>
+                  <input type="date" name="requested_date" id="requestedDate" required
+                    class="form-control <%= (locals.errors && errors.find(e => e.path === 'requested_date')) ? 'is-invalid' : '' %>"
+                    value="<%= locals.oldData ? oldData.requested_date : '' %>">
+
+                  <% if (locals.errors) { %>
+                    <% let err = errors.find(e => e.path === 'requested_date' || e.msg.includes('work on')); %>
+                    <% if (err) { %>
+                      <div class="invalid-feedback d-block"><%= err.msg %></div>
+                    <% } %>
+                  <% } %>
+                </div>
+                <!-- Requested Start Time - WITH IF LOGIC THAT STOPS ERROR MESSAGE FROM SHOWING HERE IF IT INCLUDES 'currently unavailable', WHICH IS THE RED BOX ERROR MESSAGE ON TOP OF FORM-->
+                <div class="mb-3">
+                  <label for="requestedTime" class="form-label">Requested Start Time</label>
+                  <input type="time" name="requested_start_time" id="requestedTime" required
+                    class="form-control <%= (locals.errors && errors.find(e => e.path === 'requested_start_time')) ? 'is-invalid' : '' %>"
+                    value="<%= locals.oldData ? oldData.requested_start_time : '' %>">
+
+                  <% if (locals.errors) { %>
+                    <% let err = errors.find(e => e.path === 'requested_start_time'); %>
+                    
+                    <% if (err && !err.msg.includes('currently unavailable') && !err.msg.includes('work on')) { %>
+                      <div class="invalid-feedback d-block">
+                        <%= err.msg %>
+                      </div>
+                    <% } %>
+                  <% } %>
+                </div>
+                <!-- Job Description -->
+                <div class="mb-3">
+                  <label for="jobDescription" class="form-label">Job Description</label>
+                  <textarea name="job_description" id="jobDescription" rows="4"
+                    class="form-control <%= (locals.errors && errors.find(e => e.path === 'job_description')) ? 'is-invalid' : '' %>"
+                    placeholder="Details about the job..."><%= locals.oldData ? oldData.job_description : '' %></textarea>
+
+                  <% if (locals.errors) { %>
+                    <% let err = errors.find(e => e.path === 'job_description'); %>
+                    <% if (err) { %>
+                      <div class="invalid-feedback"><%= err.msg %></div>
+                    <% } %>
+                  <% } %>
+                </div>
+                <div id="descriptionHelp" class="form-text text-end">Max 450 characters</div>
+                <!-- SUBMIT BUTTON -->
+                <button type="submit" class="btn btn-warning w-100">Book Now</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+  </main>
+
+  <footer class="text-center py-3">
+
+  </footer>
+
+  <!-- BOOTSTRAP SCRIPT -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

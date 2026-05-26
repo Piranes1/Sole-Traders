@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOLE TRADERS</title>
+
+  <!-- BOOTSTRAP LINK -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+  <!-- CSS LINK -->
+  <link rel="stylesheet" href="/css/mystyle.css">
+
+  <!-- GOOGLE FONTS LINK -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Allerta+Stencil&family=Notable&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- STICKY HEADER USING BOOTSTRAP NAVBAR -->
+  <header>
+    <nav id="headBanner" class="navbar navbar-expand-lg sticky-top bg-warning">
+      <!-- LOGO AND BUSINESS TITLE -->
+      <div id="logoTitle" class="container-fluid">
+        <a class="navbar-brand fw-bold fst-italic" href="/index">
+          <img src="/images/workericon.png" alt="Logo" class="d-inline-block align-middle">
+          SOLE TRADERS
+        </a>
+        <!-- NAVBAR TOGGLER TO HIDE QUICK LINKS IN SMALL SCREENS FOR RESPONSIVENESS AND A BETTER UX - navbar-expand-lg LOGIC HIDES BUTTON IN LARGE SCREENS -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- QUICK LINKS -->
+        <div class="collapse navbar-collapse" id="mainNavbar">
+          <div class="navbar-nav ms-auto">
+            <a class="nav-link active" aria-current="page" href="/index">Home</a>
+            <a class="nav-link" href="/directory">Find a Trader!</a>
+            <!-- LOGIC TO MAKE THE TRADER ZONE LINK LEAD TO PROFILE IF LOGGED IN OR TO LOGIN IF NOT -->
+            <!-- LOGOUT BUTTON WILL ONLY SHOW IF LOGGED IN -->
+            <% if (loggedIn) { %>
+              <a class="nav-link" href="/profile"><%= trader_name %>'s Zone</a>
+            <% } else { %>
+              <a class="nav-link" href="/login">Trader Zone</a>
+            <% } %>
+            <% if (loggedIn) { %>
+              <a class="nav-link" href="/logout">Logout</a>
+            <% } %>
+          </div>
+        </div>  
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO SECTION WITH AUTOMATIC CAROUSEL OF SLIDES -->
+    <section id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+      <!-- BACKGROUND CAROUSEL - 3 SLIDES -->
+      <div class="carousel-inner">
+        <div class="carousel-item active" id="slide-worker"></div>
+        <div class="carousel-item" id="slide-electrician"></div>
+        <div class="carousel-item" id="slide-carpenter"></div>
+      </div>
+
+      <!-- HEADLINE ON TOP OF CAROUSEL -->
+      <div class="hero-headline">
+        <div id="headlineContainer" class="container text-light mb-5">
+          <h1 class="hero-title fw-bold fst-italic">Trusted Traders Ready To Help!</h1>
+          <p class="lead fst-italic">There's no job our traders can't do.</p>
+          <a href="/directory" class="btn btn-outline-light btn-lg">Find a Trader</a>
+        </div>
+      </div>
+    </section>
+    <!-- BOOTSTRAP CONTAINER: ACCORDION WITH CUSTOMER QUOTES -->
+     <div class="container pt-5">
+      <div class="row justify-content-center">
+        <div class="accordion" id="accordionFeedback">
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCustomer" aria-expanded="true">
+                <i class="bi bi-person-heart me-2 text-warning"></i> What our Customers say
+              </button>
+            </h2>
+            <div id="collapseCustomer" class="accordion-collapse collapse show" data-bs-parent="#accordionFeedback">
+              <div class="accordion-body">
+                <blockquote class="blockquote mb-0">
+                  <p>"I needed an emergency plumber on a Sunday night. Within 10 minutes of using the directory, I found <strong>John’s Plumbing</strong>. The booking was seamless, and he arrived an hour later. Truly a lifesaver!"</p>
+                  <footer class="blockquote-footer">Sarah Jenkins, <cite title="Source Title">Belfast</cite></footer>
+                </blockquote>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTrader">
+                <i class="bi bi-tools me-2 text-warning"></i> Why Traders love us
+              </button>
+            </h2>
+            <div id="collapseTrader" class="accordion-collapse collapse" data-bs-parent="#accordionFeedback">
+              <div class="accordion-body">
+                <p><strong>"Since joining Sole Traders, my client base has grown by 40%."</strong></p>
+                <p>I used to spend a fortune on local newspaper ads. Now, I just manage my profile and the leads come directly to my inbox. The rating system really helps build trust with new customers before I even knock on their door.</p>
+                <div class="text-end text-muted small">— Dave, Professional Electrician</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCommunity">
+                <i class="bi bi-shield-check me-2 text-warning"></i> Reliability & Trust
+              </button>
+            </h2>
+            <div id="collapseCommunity" class="accordion-collapse collapse" data-bs-parent="#accordionFeedback">
+              <div class="accordion-body">
+                <strong>Our vetting process ensures quality.</strong> We believe in supporting local talent. By providing a platform where every review is verified, we ensure that homeowners get the best service and hardworking traders get the recognition they deserve.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- BOOTSTRAP CONTAINER THAT WILL HOLD TWO CARD COMPONENTS IN A ROW -->
+    <div class="container pt-5">
+      <div class="row justify-content-center">
+        <!-- FIRST CARD -->
+        <div class="col-md-5 mb-5">
+          <div class="card">
+            <img src="/images/handshake.jpg" class="card-img-top" alt="Handshake">
+            <div class="card-body">
+              <h5 class="card-title">Need a Trader?</h5>
+              <p class="card-text">Find skilled, reliable traders in your area — ready to help with jobs of any size.
+              </p>
+              <a href="/directory" class="btn btn-warning btn-lg btn-outline-dark fw-bold fst-italic w-100">Find a Trader</a>
+            </div>
+          </div>
+        </div>
+        <!-- SECOND CARD -->
+        <div class="col-md-5 mb-5">
+          <div class="card">
+            <img src="/images/drill.jpg" class="card-img-top" alt="Drill">
+            <div class="card-body">
+              <h5 class="card-title">Are You a Trader?</h5>
+              <p class="card-text">Create your profile, showcase your skills, and connect with customers in your region.
+              </p>
+              <a href="/profile" class="btn btn-warning btn-lg btn-outline-dark fw-bold fst-italic w-100">Offer a Service</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- BOOTSTRAP SCRIPT -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

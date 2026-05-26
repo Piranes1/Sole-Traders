@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trader Zone</title>
+
+  <!-- BOOTSTRAP LINK -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+  <!-- CSS LINK -->
+  <link rel="stylesheet" href="/css/mystyle.css">
+
+  <!-- BOOTSTRAP ICONS LINK -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+  <!-- GOOGLE FONTS LINK -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Allerta+Stencil&family=Notable&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- STICKY HEADER USING BOOTSTRAP NAVBAR -->
+  <header>
+    <nav id="headBanner" class="navbar navbar-expand-lg sticky-top bg-warning">
+      <!-- LOGO AND BUSINESS TITLE -->
+      <div id="logoTitle" class="container-fluid">
+        <a class="navbar-brand fw-bold fst-italic" href="/index">
+          <img src="/images/workericon.png" alt="Logo" class="d-inline-block align-middle">
+          SOLE TRADERS
+        </a>
+        <!-- NAVBAR TOGGLER TO HIDE QUICK LINKS IN SMALL SCREENS FOR RESPONSIVENESS AND A BETTER UX - navbar-expand-lg LOGIC HIDES BUTTON IN LARGE SCREENS -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- QUICK LINKS -->
+        <div class="collapse navbar-collapse" id="mainNavbar">
+          <div class="navbar-nav ms-auto">
+            <a class="nav-link" aria-current="page" href="/index">Home</a>
+            <a class="nav-link active" href="/directory">Find a Trader!</a>
+            <!-- LOGIC TO MAKE THE TRADER ZONE LINK LEAD TO PROFILE IF LOGGED IN OR TO LOGIN IF NOT -->
+            <!-- LOGOUT BUTTON WILL ONLY SHOW IF LOGGED IN -->
+            <% if (loggedIn) { %>
+              <a class="nav-link" href="/profile">
+                <%= trader_name %>'s Zone
+              </a>
+              <% } else { %>
+                <a class="nav-link active" href="/login">Trader Zone</a>
+                <% } %>
+                  <% if (loggedIn) { %>
+                    <a class="nav-link" href="/logout">Logout</a>
+                    <% } %>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- CONTAINER INCLUDING TWO CARDS: PROFILE AND SERVICES - EACH CARD TAKES A DIFFERENT ROW AND COLUMN -->
+    <div class="container pt-5">
+      <!-- EJS LOGIC TO HANDLE QUICK BUTTON FEEDBACK -->
+      <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+          
+          <% if (successMessage === 'rated') { %>
+            <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+              <i class="bi bi-check-circle-fill me-2"></i>
+              <strong>Thank you!</strong> Your rating has been submitted successfully.
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <% } %>
+
+          <% if (errorMessage) { %>
+            <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+              <i class="bi bi-exclamation-triangle-fill me-2"></i>
+              <strong>Error:</strong> <%= errorMessage === 'true' ? "Something went wrong." : errorMessage %>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <% } %>
+
+        </div>
+      </div>
+      <!-- CARD WITH PROFILE INFO FORM -->
+      <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+          <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <h5 class="card-title text-center mb-4"><%= publicTraderName %>'s Profile</h5>
+                <!-- TRADE TYPE -->
+                <div class="mb-3">
+                  <label class="form-label fw-bold">Trade Type</label>
+                  <!-- USING <p> TO SHOW DATA THAT CAN CHANGE, BUT IS NOT EDITABLE FOR CLIENT -->
+                  <p class="form-control-plaintext">
+                    <%= trader.trade_type %>
+                  </p>
+                </div>
+                <!-- REGION/TOWN -->
+                <div class="mb-3">
+                  <label class="form-label fw-bold">Region/Town</label>
+                  <p class="form-control-plaintext">
+                    <%= trader.region %>
+                  </p>
+                </div>
+                <!-- AVAILABILITY -->
+                <div class="mb-3">
+                  <label class="form-label fw-bold">Availability</label>
+                  <p class="form-control-plaintext text-capitalize">
+                    <%= trader.availability %>
+                  </p>
+                </div>
+                <!-- BIO -->
+                <div class="mb-3">
+                  <label class="form-label fw-bold">Bio</label>
+                  <% if (trader.bio) { %>
+                  <p class="form-control-plaintext <%= trader.bio.length > 300 ? 'mobile-truncate' : '' %>" 
+                    onclick="this.classList.toggle('expanded')">
+                    <%= trader.bio %>
+                  </p>
+                  <% } else { %>
+                    <p class="text-muted">No bio provided by trader yet.</p>
+                  <% } %>
+                </div>
+                <!-- WEEKLY RECURRING AVAILABILITY -->
+                <div class="mb-3">
+                  <label class="form-label fw-bold">Weekly Schedule</label>
+                  <div class="d-flex flex-wrap gap-2">
+                    <% if (schedule && schedule.length > 0) { %>
+                      <% schedule.forEach(slot => { %>
+                        <span class="badge bg-light text-dark border p-2">
+                          <span class="text-warning fw-bold"><%= slot.day_of_week.substring(0,3) %>:</span> 
+                          <%= slot.start_time.substring(0,5) %> - <%= slot.end_time.substring(0,5) %>
+                        </span>
+                      <% }) %>
+                    <% } else { %>
+                      <p class="text-muted small italic">No recurring hours set.</p>
+                    <% } %>
+                  </div>
+                </div>
+                <c
+                <div class="mb-3">
+                  <label class="form-label fw-bold">Average Customer Rating</label>
+                  <p class="form-control-plaintext">
+                    <% if (trader.average_rating) { %>
+                      <span class="text-warning fs-5">★</span> 
+                      <strong><%= Number(trader.average_rating).toFixed(1) %></strong> 
+                      <span class="text-muted">/ 5</span>
+                    <% } else { %>
+                      <span class="text-muted italic">No ratings yet</span>
+                    <% } %>
+                  </p>
+                  <form action="/ratetrader/<%= trader.trader_id %>" method="POST" class="d-flex align-items-center gap-2">
+                    <div class="btn-group" role="group" aria-label="Rating">
+                      <% [1, 2, 3, 4, 5].forEach(num => { %>
+                        <input type="radio" class="btn-check" name="rating" id="star<%= num %>" value="<%= num %>" required>
+                        <label class="btn btn-outline-warning btn-sm" for="star<%= num %>">
+                          <%= num %> <i class="bi bi-star-fill"></i>
+                        </label>
+                      <% }) %>
+                    </div>
+                    <button type="submit" class="btn btn-warning btn-sm fw-bold">Submit</button>
+                  </form>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TRADER SERVICES TABLE FORM INSIDE A CARD -->
+      <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title text-center mb-4"><%= publicTraderName %>'s Trader Services</h5>
+              <div class="table-responsive"> <!-- Bootstrap responsiveness -->
+                <table class="table align-middle">
+                  <thead>
+                    <tr>
+                      <th scope="col">Title</th>
+                      <th scope="col">Description</th>
+                      <th scope="col">Pricing Type</th>
+                      <th scope="col">Base Price (£)</th>
+                      <th scope="col"></th> <!-- Empty column without a header to handle booking buttons -->
+                    </tr>
+                  </thead>
+                  <tbody class="table-group-divider">
+                    <!-- Handling the case where no services are listed -->
+                    <% if (services.length===0) { %>
+                      <tr>
+                        <td colspan="5" class="text-center text-muted py-3">
+                          <%= publicTraderName %> has no services yet.
+                        </td>
+                      </tr>
+
+                      <% } else { %>
+                          <% services.forEach(service=> { %>
+                              <tr>
+                                  <!-- Handling responsiveness in small screens, required to truncate and expand without visual glitches -->
+                                  <td class="fw-bold">
+                                    <div class="<%= service.title.length > 25 ? 'mobile-truncate' : '' %>" 
+                                      onclick="this.classList.toggle('expanded')">
+                                    <%= service.title %>
+                                  </td>
+
+                                  <!-- Handling responsiveness in small screens, required to truncate and expand without visual glitches -->
+                                  <td>
+                                    <div class="<%= service.description.length > 25 ? 'mobile-truncate' : '' %>" 
+                                        onclick="this.classList.toggle('expanded')">
+                                      <%= service.description %>
+                                    </div>
+                                  </td>
+                                  <td class="text-capitalize"><%= service.pricing_type %></td>
+                                  <td><%= service.base_price %></td>
+                                  <td>
+                                      <!-- Booking button -->
+                                      <a href="/bookservice/<%= service.service_id %>" class="btn btn-sm btn-warning book-service-btn">
+                                          Book
+                                      </a>
+                                  </td>
+                              </tr>
+                          <% }) %>
+                      <% } %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="text-center py-3">
+
+  </footer>
+
+  <!-- BOOTSTRAP SCRIPT -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -1,0 +1,328 @@
+/****** --- 1. HERO SECTION, CAROUSEL AND ACCORDION (INDEX) --- *****/
+.carousel-item {
+  height: 40vh;
+  /* Default desktop height */
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* Link the IDs to image URL */
+#slide-worker {
+  background-image: url('/images/worker.jpg');
+}
+
+#slide-electrician {
+  background-image: url('/images/electrician.jpg');
+}
+
+#slide-carpenter {
+  background-image: url('/images/carpenter.jpg');
+}
+
+/* Centering the text over the carousel and ensuring it is properly positioned so that text is not blocked/hidden */
+.hero-headline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  /* Keeps text at the bottom area */
+  text-align: center;
+  justify-content: center;
+  z-index: 10; /* z-index = stacking order - Safety margin, enough to leave room for other layer that might go between text and images  */
+  /* Ensures text stays above the images */
+}
+
+/* Making the carousel images darke so that headline is still readable */ 
+.hero-headline::before {
+  /* ::before creates an extra layer using only CSS - in this case it's a transparent: 
+  black sheet on top of image that darkens the image to make the text more readable */
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* black tint at 30% opacity */
+  background: rgba(0, 0, 0, 0.30); 
+   /* Darkens from 20% at the top to 60% at the bottom where the text is */
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.6) 100%); 
+  /* z-index defines the stacking order of layers - a higher number is on top of a lower one */
+  z-index: 1;  
+}
+
+/* Leaving headline text outside of carousel image darkening */ 
+.hero-headline .container {
+  /* Required to make this container a positioned element, susceptible to z-index */
+  position: relative;
+  /* z-index to place this layer on top of the black tint so that it's not affected */
+  z-index: 2; 
+  /* Creates a subtle "frosted glass" area around the text */
+  backdrop-filter: blur(2px);
+  padding: 20px;
+  border-radius: 15px;
+}
+
+/* Adding text-shadow to headline to improve readability: dark edge + soft blur to create contrast */
+.hero-headline h1 {
+   /* clamp(MIN, IDEAL, MAX) resizes dynamically depending on screen, MIN and MAX will never be surpassed not matter how small or big screen is */
+  /* MIN: 1.8rem (Never gets smaller than this) SCALING: 4vw (Grows at 4% of the screen width) MAX: 4rem (Never gets bigger than this)*/
+  font-size: clamp(1.3rem, 3.8vw, 3.8rem);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0px 0px 20px rgba(0, 0, 0, 0.5);
+  /* Font Stack, from left to right: fallback if font not available*/
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  margin-bottom: 0.5rem;
+}
+
+.hero-headline p {
+  font-size: clamp(1rem, 2.8vw, 2.8rem);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0px 0px 20px rgba(0, 0, 0, 0.5);
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+/* Index Accordion */
+/* Background and text color when the accordion is OPEN */
+.accordion-button:not(.collapsed) {
+    background-color: #ffc107; /* Bootstrap Warning Yellow */
+    color: #000;               /* Black text for contrast */
+}
+
+/* Color of the little arrow icon when open */
+.accordion-button:after {
+    filter: brightness(0); /* Makes the arrow black */
+}
+
+/* 3. Remove the blue "glow" when you click the button */
+.accordion-button:focus {
+    border-color: #ffc107;
+    box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25); /* Yellow glow instead of blue */
+}
+
+
+
+
+/***** --- 2. NAVBAR & LOGO --- *****/
+
+/* !important is required as browsers might ignore custom CSS thinking Bootstrap default will be better*/
+
+.navbar-brand {
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem) !important;
+
+  font-family: "Notable", sans-serif !important;
+
+  /* Letter spacing for a cleaner look */
+  letter-spacing: 0.5px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 80%;
+  white-space: nowrap;
+}
+
+.navbar-brand img {
+  /* Logo scales down to match the text */
+  height: clamp(1.8rem, 3vw, 2.5rem);
+  width: auto;
+  /* This adds a white "glow" border around the actual shape of the PNG icon */
+  filter: drop-shadow(0 0 1px white) drop-shadow(0 0 1px white);
+}
+
+/****** --- 3. DIRECTORY --- *****/
+.chart-container {
+  position: relative;
+  /* Min: 180px, Scale: 15vh, Max: 300px */
+  height: clamp(180px, 15vh, 300px);
+  width: 100%;
+}
+
+/* Text padding */
+thead.bg-warning th {
+  padding-top: 15px !important;
+  padding-bottom: 15px !important;
+}
+
+
+/***** --- 4 . MEDIA RESPONSIVENESS (MOBILE) --- *****/
+/* FOR TABLETS AND BIGGER MOBILE SCREENS */
+@media (max-width: 768px) {
+
+  .carousel-item {
+    height: 30vh !important;
+  }
+
+  #headlineContainer {
+    margin-bottom: 2rem !important;
+  }
+
+  /* Make tables feel less cramped */
+  .table th,
+  .table td {
+    font-size: 0.85rem;
+    
+    /* Slightly smaller text */
+    padding: 10px 5px !important;
+  }
+
+  /* Buttons with more breathing room */
+  .d-flex.gap-2 {
+    gap: 0.25rem !important;
+  }
+
+  /* Make the button ultra-compact on mobile */
+  .btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  /* Increase the width of the form container on tablets */
+  .col-md-6 {
+    width: 80% !important; /* Makes the form wider than the default 50% */
+  }
+
+  /* Add more "breathing room" inside the card */
+  .card-body {
+    padding: 2.5rem !important;
+  }
+
+  /* Make labels a bit more prominent */
+  .form-label {
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+
+  /* Scale up the inputs slightly for easier tapping on tablets */
+  .form-control {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+  }
+  
+  /* Ensure the password note doesn't look tiny on a large tablet screen */
+  .password-note {
+    font-size: 0.85rem;
+    margin-top: 4px;
+  }
+}
+
+/* FOR SMALL MOBILE SCREENS */
+@media (max-width: 576px) {
+
+  .card-body {
+    padding: 1rem !important; /* Reduce the 2.5rem padding so the inputs have room */
+  }
+
+  .container {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+  .navbar-brand {
+    font-size: 1.5rem !important;
+    
+  }
+  /* Scrollable box if space is limited */
+  .mobile-scroll-cell {
+    max-height: 100px;
+    overflow-y: auto;
+    font-size: 0.8rem;
+    border: 1px inset #f8f9fa;
+    padding: 5px;
+  }
+
+  /* This class truncates text to after lines on mobile - Used for table displays */
+  div.mobile-truncate {
+    display: -webkit-box;
+    /* We can ignore webkit warnings (not part of CSS3) */
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    margin-bottom: 0;
+  }
+
+  p.mobile-truncate {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.5;
+  }
+
+  /* When the user taps it, we remove the limit */
+  .mobile-truncate.expanded {
+    display: block;
+    /* Removes the flex-box clamp */
+    overflow: visible;
+  }
+  /* Hint to hide when expanded */
+  .mobile-truncate.expanded::after {
+    content: " (tap to shrink)";
+    color: #6c757d;
+  }
+
+
+
+  /* Resizes buttons in small screens for a better UI */
+  .book-service-btn, 
+  .ed-del-service-btn, .book-btn  {
+  display: flex !important;      /* Allow stretching */
+  align-items: center;           /* Center text vertically */
+  justify-content: center;       /* Center text horizontally */
+  height: 100% !important;       /* This makes it bigger by matching the row height */
+  width: 100%;                   /* Full width of its column */
+  padding: 15px 5px !important;  /* Extra padding for a larger "tap target" */
+  font-size: 0.9rem;             /* Slightly larger font for readability */
+  border-radius: 4px;            /* Smooth edges */
+  }
+
+  
+
+ 
+  /* Provide alignmenttable cells  */
+  .form-control-plaintext, .table td {
+    vertical-align: middle !important;
+    /* Increases "breathing room" between lines */
+    line-height: 1.6;
+    /* Stick to left-aligned for better mobile legibility */
+    text-align: left;
+    /* Breaks long words naturally if needed */
+    hyphens: auto;
+
+  }
+
+  /* Ensure the table scrollbar is actually visible on mobile */
+  .table-responsive::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .table-responsive::-webkit-scrollbar-thumb {
+    background: #ffc107;
+    border-radius: 10px;
+  }
+
+  .form-control-plaintext,
+  .table td {
+    line-height: 1.6;
+    /* Increases "breathing room" between lines */
+    color: #333;
+    /* Softer than pure black for less eye strain */
+    text-align: left;
+    /* Stick to left-aligned for better mobile legibility */
+    hyphens: auto;
+    /* Breaks long words naturally if needed */
+  }
+
+  /* Helper text positioning */
+  .password-note {
+    font-size: 0.75rem;
+    margin-top: 2px;    /* Pulls the text closer to the input box */
+    margin-bottom: 10px; /* Maintains a gap from the button below */
+    display: block;      /* Ensures it sits on its own line */
+    line-height: 1.2;
+  }
+}
+
+

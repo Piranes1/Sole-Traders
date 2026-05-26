@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIX IT !</title>
+
+    <!-- BOOTSTRAP LINK -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <!-- CSS LINK -->
+    <link rel="stylesheet" href="/css/mystyle.css">
+
+    <!-- GOOGLE FONTS LINK -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Allerta+Stencil&family=Notable&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- STICKY HEADER USING BOOTSTRAP NAVBAR -->
+    <header>
+        <nav id="headBanner" class="navbar navbar-expand-lg sticky-top bg-warning">
+            <!-- LOGO AND BUSINESS TITLE -->
+            <div id="logoTitle" class="container-fluid">
+                <a class="navbar-brand fw-bold fst-italic" href="/index">
+                    <img src="/images/workericon.png" alt="Logo" class="d-inline-block align-middle">
+                    SOLE TRADERS
+                </a>
+                <!-- NAVBAR TOGGLER TO HIDE QUICK LINKS IN SMALL SCREENS FOR RESPONSIVENESS AND A BETTER UX - navbar-expand-lg LOGIC HIDES BUTTON IN LARGE SCREENS -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <!-- QUICK LINKS -->
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                    <div class="navbar-nav ms-auto">
+                        <a class="nav-link active" aria-current="page" href="/index">Home</a>
+                        <a class="nav-link" href="/directory">Find a Trader!</a>
+                        <!-- LOGIC TO MAKE THE TRADER ZONE LINK LEAD TO PROFILE IF LOGGED IN OR TO LOGIN IF NOT -->
+                        <!-- LOGOUT BUTTON WILL ONLY SHOW IF LOGGED IN -->
+                        <% if (loggedIn) { %>
+                            <a class="nav-link" href="/profile">
+                        <%= trader_name %>'s Zone
+                            </a>
+                        <% } else { %>
+                            <a class="nav-link" href="/login">Trader Zone</a>
+                        <% } %>
+                        <% if (loggedIn) { %>
+                            <a class="nav-link" href="/logout">Logout</a>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    
+    
+    <main>
+        <!-- CONTAINER WITH ONE CARD: BOOKING CONFIRMATION MESSAGE AND BUTTON TO RETURN TO TRADER DIRECTORY -->
+        <div class="container pt-5">
+            <!-- CONTAINER WITH MESSAGE AND BUTTON -->
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <div class="card shadow-sm">
+                        <div class="card-body text-center py-5">
+                            <h3 class="mb-3 text-warning fw-bold">
+                                Booking Confirmed!
+                            </h3>
+                            <!-- Muted text, 75% width, centered horizontally -->
+                            <p class="text-muted mb-4 w-75 mx-auto">
+                                Thank you for trusting us! Your booking has been sent to the trader, who will contact
+                                you shortly.
+                            </p>
+                            <!-- Dark outline -->
+                            <a href="/directory" class="btn btn-warning btn-outline-dark">
+                                Return to Trader Directory
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <footer class="text-center py-3">
+        <div></div>
+    </footer>
+
+    <!-- BOOTSTRAP SCRIPT -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trader Zone Access</title>
+
+  <!-- BOOTSTRAP LINK -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" 
+        rel="stylesheet" 
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" 
+        crossorigin="anonymous">
+
+  <!-- CSS LINK -->
+  <link rel="stylesheet" href="/css/mystyle.css">
+
+  <!-- GOOGLE FONTS LINK -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Allerta+Stencil&family=Notable&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- STICKY HEADER USING BOOTSTRAP NAVBAR -->
+  <header>
+    <nav id="headBanner" class="navbar navbar-expand-lg sticky-top bg-warning">
+      <!-- LOGO AND BUSINESS TITLE -->
+      <div id="logoTitle" class="container-fluid">
+        <a class="navbar-brand fw-bold fst-italic" href="/index">
+          <img src="/images/workericon.png" alt="Logo" class="d-inline-block align-middle">
+          SOLE TRADERS
+        </a>
+        <!-- NAVBAR TOGGLER TO HIDE QUICK LINKS IN SMALL SCREENS FOR RESPONSIVENESS AND A BETTER UX - navbar-expand-lg LOGIC HIDES BUTTON IN LARGE SCREENS -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- QUICK LINKS -->
+        <div class="collapse navbar-collapse" id="mainNavbar">
+          <div class="navbar-nav ms-auto">
+            <a class="nav-link" aria-current="page" href="/index">Home</a>
+            <a class="nav-link" href="/directory">Find a Trader!</a>
+            <a class="nav-link active" href="/login">Trader Zone</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- LOGIN FORM INSIDE A CARD -->
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-6">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title text-center mb-4">Trader Zone Access</h5>
+                        <!-- Logic to handle validation and provide feedback to trader -->
+                        <% if (locals.errors && errors.length > 0) { %>
+                          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Error:</strong> <%= errors[0].msg %>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>
+                        <% } %>
+                        <form method="post" action="/login">
+                          <!-- E-Mail -->
+                          <div class="mb-3">
+                            <label for="traderEmail" class="form-label">Email address</label>
+                            <input type="email" 
+                                  class="form-control" 
+                                  name="trader_email" 
+                                  id="traderEmail" 
+                                  value="<%= locals.oldData ? oldData.trader_email : '' %>" 
+                                  required>
+                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                          </div>
+                          <!-- Password -->
+                          <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" name="password" id="password" required>
+                          </div>
+                          
+                          <button type="submit" class="btn btn-warning w-100">Login</button>
+                          <div class="mt-2">
+                            <small>
+                              <a href="#" class="link-primary">Forgot your password?</a>
+                            </small>
+                          </div>
+                          <div class="mt-2">
+                            <small class="text-muted">
+                              Don’t have an account? <a href="/signup" class="link-primary">Sign up</a>
+                            </small>
+                          </div>
+                        </form>
+                    </div>    
+                </div>
+            </div>
+        </div>
+    </div>
+  </main>
+
+  <footer class="text-center py-3">
+    
+  </footer>
+
+  <!-- BOOTSTRAP SCRIPT -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trader Zone</title>
+
+  <!-- BOOTSTRAP LINK -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+  <!-- CSS LINK -->
+  <link rel="stylesheet" href="/css/mystyle.css">
+
+  <!-- BOOTSTRAP ICONS LINK -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+  <!-- GOOGLE FONTS LINK -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Allerta+Stencil&family=Notable&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- STICKY HEADER USING BOOTSTRAP NAVBAR -->
+  <header>
+    <nav id="headBanner" class="navbar navbar-expand-lg sticky-top bg-warning">
+      <!-- LOGO AND BUSINESS TITLE -->
+      <div id="logoTitle" class="container-fluid">
+        <a class="navbar-brand fw-bold fst-italic" href="/index">
+          <img src="/images/workericon.png" alt="Logo" class="d-inline-block align-middle">
+          SOLE TRADERS
+        </a>
+        <!-- NAVBAR TOGGLER TO HIDE QUICK LINKS IN SMALL SCREENS FOR RESPONSIVENESS AND A BETTER UX - navbar-expand-lg LOGIC HIDES BUTTON IN LARGE SCREENS -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- QUICK LINKS -->
+        <div class="collapse navbar-collapse" id="mainNavbar">
+          <div class="navbar-nav ms-auto">
+            <a class="nav-link" href="/index">Home</a>
+            <a class="nav-link" aria-current="page" href="/directory">Find a Trader!</a>
+            <a class="nav-link active" href="/login">Trader Zone</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- CONTAINER INCLUDING A CARD -->
+    <div class="container pt-5">
+      <!-- CARD SIGN-UP FORM -->
+      <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-7">
+          <div class="card shadow-sm mb-4">
+            <div class="card-body">
+              <h5 class="card-title text-center mb-4">Become One of Our Trusted Traders...</h5>
+              <!-- Red box to handle general error -->
+              <% if (locals.errors && errors.some(e => e.msg === 'Service unavailable')) { %>
+                <div class="alert alert-danger alert-dismissible fade show shadow-sm mb-4" role="alert">
+                  An internal server error occurred. Please try again later.
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              <% } %>
+              <form method="post" action="/signup">
+                <!-- Full Name -->
+                <div class="mb-3">
+                  <label for="fullName" class="form-label">Full Name</label>
+                  <input type="text" name="trader_name" id="fullName" required
+                    class="form-control <%= (locals.errors && errors.find(e => e.path === 'trader_name')) ? 'is-invalid' : '' %>"
+                    value="<%= locals.oldData ? oldData.trader_name : '' %>">
+
+                  <% if (locals.errors) { %>
+                    <% let error=errors.find(e=> e.path === 'trader_name'); %>
+                    <% if (error) { %>
+                      <div class="invalid-feedback"><%= error.msg %></div>
+                    <% } %>
+                  <% } %>
+                </div>
+                <!-- Username -->
+                <div class="mb-3">
+                  <label for="username" class="form-label">Username</label>
+                  <input type="text" name="username" id="username" required
+                    class="form-control <%= (locals.errors && errors.find(e => e.path === 'username')) ? 'is-invalid' : '' %>"
+                    value="<%= locals.oldData ? oldData.username : '' %>">
+
+                  <% if (locals.errors) { %>
+                    <% let error=errors.find(e=> e.path === 'username'); %>
+                      <% if (error) { %>
+                        <div class="invalid-feedback">
+                          <%= error.msg %>
+                        </div>
+                      <% } %>
+                  <% } %>
+                </div>
+                <!-- E-Mail -->
+                <div class="mb-3">
+                  <label for="traderEmail" class="form-label">E-Mail Address</label>
+                  <input type="email" name="trader_email" id="traderEmail" required
+                    class="form-control <%= (locals.errors && errors.find(e => e.path === 'trader_email')) ? 'is-invalid' : '' %>"
+                    value="<%= locals.oldData ? oldData.trader_email : '' %>">
+
+                  <% if (locals.errors) { %>
+                    <% let error=errors.find(e=> e.path === 'trader_email'); %>
+                      <% if (error) { %>
+                        <div class="invalid-feedback">
+                          <%= error.msg %>
+                        </div>
+                     <% } %>
+                  <% } %>
+                </div>
+                <!-- Password -->
+                <div class="mb-3">
+                  <label for="password" class="form-label">Password</label>
+                  <input type="password" name="password" id="password" required
+                    class="form-control <%= (locals.errors && errors.find(e => e.path === 'password')) ? 'is-invalid' : '' %>">
+
+                  <small class="password-note text-muted">
+                    Must be 12–128 characters with at least one uppercase, one lowercase, one number, and one special character.
+                  </small>
+
+                  <% if (locals.errors) { %>
+                    <% let error=errors.find(e=> e.path === 'password'); %>
+                      <% if (error) { %>
+                        <div class="invalid-feedback">
+                          <%= error.msg %>
+                        </div>
+                      <% } %>
+                  <% } %>
+                </div>
+
+                <button type="submit" class="btn btn-warning w-100">Sign Up</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="text-center py-3">
+
+  </footer>
+
+  <!-- BOOTSTRAP SCRIPT -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
