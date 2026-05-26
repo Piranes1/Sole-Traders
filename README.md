@@ -16,9 +16,11 @@ The application provides a space where local traders can create accounts, list t
 
 ## Technologies Used
 
-- Node.js / Express  
+- Node.js / Express
+- EJS templating engine  
 - SQL database  
-- HTML, CSS, JavaScript  
+- HTML, CSS, JavaScript
+- Chart.js  
 - RESTful API architecture  
 
 ## Purpose
