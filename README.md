@@ -19,7 +19,7 @@ The application provides a space where local traders can create accounts, list t
 - Node.js / Express
 - EJS templating engine  
 - SQL database  
-- HTML, CSS, JavaScript
+- HTML, CSS, JavaScript, Bootstrap
 - Chart.js  
 - RESTful API architecture  
 
